@@ -1,0 +1,26 @@
+# 让 K8s 集群里的 Prometheus 去抓集群外的 exporter。
+#
+# 顺序：
+#   1. kubectl apply -f additional-scrape-configs.yaml
+#   2. 把 Prometheus CR 指到这个 Secret
+#   3. 等 Operator 重建 Prometheus Pod（约 30s）
+#
+# 注意：kube-prometheus 里 Operator 自己生成的那个 Secret
+# （prometheus-k8s）改了不起作用，会被 reconcile 覆盖回来。
+# 自定义抓取目标必须走 additionalScrapeConfigs 这条路。
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: additional-scrape-configs
+  namespace: monitoring
+type: Opaque
+stringData:
+  prometheus-additional.yaml: |
+    - job_name: "wsl-node-exporter"
+      static_configs:
+        - targets: ["192.168.44.1:9100"]
+
+    - job_name: "wsl-nvidia-dcgm"
+      static_configs:
+        - targets: ["192.168.44.1:9400"]

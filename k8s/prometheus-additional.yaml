@@ -1,0 +1,19 @@
+# Prometheus Operator 的额外抓取配置（真实环境内容）
+#
+# 这份内容放在 Secret `monitoring/additional-scrape-configs` 的
+# `prometheus-additional.yaml` 键里，由 Prometheus CR 的
+# spec.additionalScrapeConfigs 引用。
+#
+# 背景：GPU 不在 K8s 集群里，而在同网段的 Windows 宿主机上
+# （Docker Desktop 跑 dcgm-exporter）。192.168.44.1 是 VMware VMnet8
+# 里宿主机的地址，集群三个节点都能直接访问。
+#
+# 换成你自己的环境时，只需要改 targets。
+
+- job_name: "wsl-node-exporter"
+  static_configs:
+    - targets: ["192.168.44.1:9100"]
+
+- job_name: "wsl-nvidia-dcgm"
+  static_configs:
+    - targets: ["192.168.44.1:9400"]
