@@ -8,6 +8,8 @@
 
 ## 先看效果
 
+截图是整理这份记录时补的，画面上的系统时间比搭这套监控的时间晚，指标还是当时跑出来的。
+
 Grafana 上的 DCGM 官方看板，温度和功耗曲线是这张 4GB 卡跑推理时的真实数据：
 
 ![Grafana DCGM 看板](docs/06-grafana-dcgm-official-dashboard.png)
