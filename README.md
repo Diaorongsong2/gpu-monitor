@@ -6,6 +6,22 @@
 
 ---
 
+## 先看效果
+
+Grafana 上的 DCGM 官方看板，温度和功耗曲线是这张 4GB 卡跑推理时的真实数据：
+
+![Grafana DCGM 看板](docs/06-grafana-dcgm-official-dashboard.png)
+
+vLLM 把 Qwen2.5-0.5B 跑起来的启动日志，最后一行 `Asynchronous scheduling is enabled` 说明服务已经就绪：
+
+![vLLM 启动](docs/01-vllm-start-qwen2.5-0.5b.png)
+
+宿主机的 `nvidia-smi`，显存 3483MiB / 4096MiB，被模型权重、KV Cache 和桌面进程一起占着：
+
+![nvidia-smi](docs/04-nvidia-smi-gtx1650.png)
+
+---
+
 ## 一、这个仓库解决什么问题
 
 在小显存单卡上跑 LLM 推理，有几个问题是纯靠 `nvidia-smi` 盯着解决不了的：
